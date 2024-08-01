@@ -1,8 +1,7 @@
 from flask import Flask, request, jsonify
-from pymongo import MongoClient
+from flask_pymongo import PyMongo
 from typing import Optional
 import os
-from flask_pymongo import PyMongo
 
 app = Flask(__name__)
 
@@ -64,13 +63,13 @@ def add_New_Motore():
         print(f"An error occurred: {e}")
         return jsonify({"detail": str(e)}), 500
 
-
 @app.route("/get_all/", methods=['GET'])
 def get_All():
     try:
         motors = getAllMotores()
         return jsonify(motors)  # Directly return the list of motor objects
     except Exception as e:
+        print(f"An error occurred: {e}")
         return jsonify({"detail": str(e)}), 500
 
 @app.route("/search_motore/", methods=['GET'])
@@ -83,6 +82,7 @@ def search_motore():
         result = getmotorsBy(numer_of_turns, diameter, number_of_sewers)
         return jsonify(result)
     except Exception as e:
+        print(f"An error occurred: {e}")
         return jsonify({"detail": str(e)}), 500
 
 @app.route("/get_details/", methods=['GET'])
@@ -100,9 +100,8 @@ def get_motor_by_owner_and_type():
         else:
             return jsonify({"detail": "Motor not found"}), 404
     except Exception as e:
+        print(f"An error occurred: {e}")
         return jsonify({"detail": str(e)}), 500
-
-
 
 # MongoDB functions
 def addNewMotore(ownerName, velocity1, velocity2, ability1, ability2, weight, ble1, ble2, notes, division, motorDiameter1, motorDiameter2, lengthOWire, numberOfSewers, type):
@@ -147,10 +146,10 @@ def getmotorsBy(numer_of_turns: Optional[float] = None, diameter: Optional[float
             query["number_of_turns"] = {"$gte": numer_of_turns, "$lt": numer_of_turns + 1}
         
         if diameter is not None:
-            query["motor_diameter1"] = {"$gte": diameter, "$lt": diameter + 1}
+            query["motorDiameter1"] = {"$gte": diameter, "$lt": diameter + 1}
         
         if number_of_sewers is not None:
-            query["number_of_sewers"] = {"$gte": number_of_sewers, "$lt": number_of_sewers + 1}
+            query["numberOfSewers"] = {"$gte": number_of_sewers, "$lt": number_of_sewers + 1}
         
         motors = list(collection.find(query))
         
@@ -158,7 +157,6 @@ def getmotorsBy(numer_of_turns: Optional[float] = None, diameter: Optional[float
     except Exception as e:
         print(f"An error occurred: {e}")
         return []
-    
 
 if __name__ == "__main__":
-    app.run( debug=True)
+    app.run()
