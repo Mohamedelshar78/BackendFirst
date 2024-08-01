@@ -5,15 +5,10 @@ import os
 
 app = Flask(__name__)
 
-# Set MongoDB URI from environment variable
-app.config["MONGO_URI"] = os.getenv("MONGO_URI", "mongodb+srv://elsharkaweymohamed88:Oe8F4bf2042nTFtx@cluster1.xtakvhn.mongodb.net/")
+client = MongoClient(os.getenv("mongodb+srv://elsharkaweymohamed88:Oe8F4bf2042nTFtx@cluster1.xtakvhn.mongodb.net/"))
 
-# Initialize PyMongo
-mongo = PyMongo(app)
-
-# Access the collection
-collection = mongo.db.motorCollection  # Ensure this matches your collection name
-
+db = client['motor_db']
+collection = db['motorCollection']
 
 # Helper function to convert document to motor
 def to_motor(doc):
