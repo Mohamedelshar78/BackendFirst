@@ -6,7 +6,7 @@ import os
 app = Flask(__name__)
 
 # MongoDB connection
-app.config["MONGO_URI"] = os.getenv("MONGO_URI")
+app.config["MONGO_URI"] = os.getenv("MONGO_URI","mongodb+srv://elsharkaweymohamed88:Oe8F4bf2042nTFtx@cluster1.xtakvhn.mongodb.net/motor_db")
 mongo = PyMongo(app)
 collection = mongo.db.motorCollection
 
