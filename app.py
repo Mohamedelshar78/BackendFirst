@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 
 # Set up MongoDB connection
-mongo_uri = os.getenv("MONGO_URI")
+mongo_uri = os.getenv("MONGO_URI","mongodb+srv://elsharkaweymohamed88:Oe8F4bf2042nTFtx@cluster1.xtakvhn.mongodb.net/motor_db")
 if not mongo_uri:
     raise ValueError("MONGO_URI environment variable not set")
 
