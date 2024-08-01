@@ -5,15 +5,10 @@ import os
 
 app = Flask(__name__)
 
-try:
-    app.config["MONGO_URI"] = os.getenv("MONGO_URI")
-    print(f"MONGO_URI: {app.config.get('MONGO_URI')}")  # Debugging line
-    mongo = PyMongo(app)
-    print(f"mongo: {mongo}")  # Debugging line
-    print(f"mongo.db: {mongo.db}")  # Debugging line
-    collection = mongo.db.motorCollection
-except Exception as e:
-    print(f"Failed to initialize MongoDB: {e}")
+# Set MongoDB URI from environment variable
+app.config["MONGO_URI"] = os.getenv("MONGO_URI")
+mongo = PyMongo(app)
+collection = mongo.db.motorCollection
 # Helper function to convert document to motor
 def to_motor(doc):
     """
