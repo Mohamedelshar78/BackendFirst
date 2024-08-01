@@ -5,8 +5,8 @@
       "src": "app.py", 
       "use": "@vercel/python",
       "config": {
-        "maxDuration": 60,  // Timeout in seconds
-        "memory": 512       // Memory allocation in MB
+        "maxDuration": 60,  
+        "memory": 512      
       }
     }
   ],
