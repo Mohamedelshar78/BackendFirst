@@ -5,10 +5,18 @@ from flask_pymongo import PyMongo
 
 app = Flask(__name__)
 
-# MongoDB connection
-app.config["MONGO_URI"] = os.getenv("MONGO_URI", "mongodb+srv://elsharkaweymohamed88:Oe8F4bf2042nTFtx@cluster1.xtakvhn.mongodb.net/motor_db")
+
+# Set up MongoDB connection
+mongo_uri = os.getenv("MONGO_URI")
+if not mongo_uri:
+    raise ValueError("MONGO_URI environment variable not set")
+
+app.config["MONGO_URI"] = mongo_uri
 mongo = PyMongo(app)
+
+# Access the motor collection
 collection = mongo.db.motorCollection
+
 # Helper function to convert document to motor
 def to_motor(doc):
     """
