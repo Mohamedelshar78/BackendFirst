@@ -5,10 +5,11 @@ import os
 
 app = Flask(__name__)
 
-client = MongoClient(os.getenv("mongodb+srv://elsharkaweymohamed88:Oe8F4bf2042nTFtx@cluster1.xtakvhn.mongodb.net/"))
-
+# MongoDB connection
+client = MongoClient('mongodb+srv://elsharkaweymohamed88:Oe8F4bf2042nTFtx@cluster1.xtakvhn.mongodb.net/')
 db = client['motor_db']
 collection = db['motorCollection']
+
 
 # Helper function to convert document to motor
 def to_motor(doc):
