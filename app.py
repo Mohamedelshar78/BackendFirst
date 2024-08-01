@@ -7,8 +7,11 @@ app = Flask(__name__)
 
 # Set MongoDB URI from environment variable
 app.config["MONGO_URI"] = os.getenv("MONGO_URI")
+print("MONGO_URI:", app.config["MONGO_URI"])  # Debug line
 mongo = PyMongo(app)
 collection = mongo.db.motorCollection
+
+
 # Helper function to convert document to motor
 def to_motor(doc):
     """
