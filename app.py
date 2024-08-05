@@ -33,8 +33,9 @@ def to_motor(doc):
         "division": safe_float(doc.get("division")),
         "motorDiameter1": safe_float(doc.get("motorDiameter1")),
         "motorDiameter2": safe_float(doc.get("motorDiameter2")),
-        "lengthOWire": safe_float(doc.get("lengthOWire")),
+        "lengthOfTheWire": safe_float(doc.get("lengthOfTheWire")),
         "numberOfSewers": safe_float(doc.get("numberOfSewers")),
+        "numberOfTurns": safe_float(doc.get("numberOfTurns")),
         "type": doc.get("type", ""),
         "wrappedCountry": doc.get("wrappedCountry", False),
         "step": doc.get("step"),
@@ -71,14 +72,22 @@ def add_MotorSeliPring():
 def add_Motor3Phase():
     data = request.json
     print(f"Received data: {data}")
-    try:
+    try:    
         result = addNew3Pase(
+            data.get("step"),
             data.get("type"), data.get("ownerName"), data.get("velocity1"), data.get("velocity2"),
+            
             data.get("ability1"), data.get("ability2"), data.get("weight"),
+            
             data.get("ble1"), data.get("ble2"), data.get("notes"),
+            
             data.get("division"), data.get("motorDiameter1"), data.get("motorDiameter2"),
-            data.get("lengthOWire"), data.get("numberOfSewers"), data.get("wrappedCountry"),
-            data.get("waterpump")
+            
+            data.get("lengthOfTheWire"), data.get("numberOfSewers"), data.get("numberOfTurns"),
+            
+            data.get("wireThickness"),data.get("wrappedCountry"),data.get("waterpump")
+            
+            
         )
         return jsonify({"message": "Insertion successful" if result else "Insertion failed"})
     except Exception as e:
@@ -88,6 +97,7 @@ def add_Motor3Phase():
 @app.route("/add_Motor220Volt/", methods=['POST'])
 def add_Motor220Volt():
     data = request.json
+
     print(f"Received data: {data}")
     try:
         result = addNew220Volt(
@@ -95,7 +105,7 @@ def add_Motor220Volt():
             data.get("weight"), data.get("ble1"), data.get("ble2"), data.get("notes"),
             data.get("division"), data.get("motorDiameter1"), data.get("motorDiameter2"),
             data.get("lengthOfTheWire"), data.get("wrappedCountry"), data.get("step"),
-            data.get("numberOfTurns"), data.get("wireThickness"), data.get("stepTquem"),
+            data.get("wireThickness"),data.get("numberOfTurns"),  data.get("stepTquem"),
             data.get("numberOfTurnsTquem"), data.get("wireThicknessTquem")
         )
         return jsonify({"message": "Insertion successful" if result else "Insertion failed"})
@@ -143,7 +153,7 @@ def get_motor_by_owner_and_type():
         return jsonify({"detail": str(e)}), 500
 
 # MongoDB functions
-def addNewMotoreSeliPring(ownerName, velocity1, velocity2, ability1, ability2, weight, ble1, ble2, notes, division, motorDiameter1, motorDiameter2, lengthOWire, numberOfSewers, type):
+def addNewMotoreSeliPring(ownerName, velocity1, velocity2, ability1, ability2, weight, ble1, ble2, notes, division, motorDiameter1, motorDiameter2, lengthOWire, numberOfSewers,numberOfTurns, type):
     new_motor = {
         "ownerName": ownerName,
         "velocity1": velocity1,
@@ -158,6 +168,7 @@ def addNewMotoreSeliPring(ownerName, velocity1, velocity2, ability1, ability2, w
         "motorDiameter1": motorDiameter1,
         "motorDiameter2": motorDiameter2,
         "lengthOWire": lengthOWire,
+        "numberOfTurns":numberOfTurns,
         "numberOfSewers": numberOfSewers,
         "type": type
     }
@@ -169,23 +180,34 @@ def addNewMotoreSeliPring(ownerName, velocity1, velocity2, ability1, ability2, w
         print(f"An error occurred: {e}")
         return False
 
-def addNew3Pase(type, ownerName, velocity1, velocity2, ability1, ability2, weight, ble1, ble2, notes, division, motorDiameter1, motorDiameter2, lengthOWire, numberOfSewers, wrappedCountry, waterpump):
+def addNew3Pase(step,type, ownerName, velocity1, velocity2, ability1,ability2, weight, ble1, ble2, notes, 
+                division, motorDiameter1, motorDiameter2, lengthOfTheWire, numberOfSewers, numberOfTurns,wireThickness, wrappedCountry, waterpump):
+    
     new_motor = {
+        "step":step,
         "type": type,
+        
         "ownerName": ownerName,
         "velocity1": velocity1,
         "velocity2": velocity2,
+        
         "ability1": ability1,
         "ability2": ability2,
         "weight": weight,
+        
         "ble1": ble1,
         "ble2": ble2,
         "notes": notes,
+        
         "division": division,
         "motorDiameter1": motorDiameter1,
         "motorDiameter2": motorDiameter2,
-        "lengthOWire": lengthOWire,
+        
+        "lengthOfTheWire": lengthOfTheWire,
         "numberOfSewers": numberOfSewers,
+        "numberOfTurns": numberOfTurns,
+        
+        "wireThickness":wireThickness,
         "wrappedCountry": wrappedCountry,
         "waterpump": waterpump
     }
