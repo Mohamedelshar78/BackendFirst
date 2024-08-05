@@ -39,6 +39,7 @@ def to_motor(doc):
         "type": doc.get("type", ""),
         "wrappedCountry": doc.get("wrappedCountry", False),
         "step": doc.get("step"),
+        "steps": doc.get("steps"),
         "stepTquem": doc.get("stepTquem"),
         "wireThickness": doc.get("wireThickness"),
         "numberOfTurnsTquem": doc.get("numberOfTurnsTquem"),
@@ -51,17 +52,18 @@ def hello_world():
     return 'Hello, World!'
 
 
+
 @app.route("/add_MotorSeliPring/", methods=['POST'])
 def add_MotorSeliPring():
     data = request.json
     print(f"Received data: {data}")
     try:
         result = addNewMotoreSeliPring(
-            data.get("ownerName"), data.get("velocity1"), data.get("velocity2"),
-            data.get("ability1"), data.get("ability2"), data.get("weight"),
-            data.get("ble1"), data.get("ble2"), data.get("notes"),
-            data.get("division"), data.get("motorDiameter1"), data.get("motorDiameter2"),
-            data.get("lengthOWire"), data.get("numberOfSewers"), data.get("type")
+            data["type"], data["ownerName"], data["velocity1"], data["velocity2"],
+            data["ability1"], data["ability2"], data["weight"], data["ble1"], 
+            data["ble2"], data["notes"], data["division"], data["motorDiameter1"], 
+            data["motorDiameter2"], data["lengthOfTheWire"], data["numberOfSewers"], 
+            data["numberOfTurns"], data["step"]
         )
         return jsonify({"message": "Insertion successful" if result else "Insertion failed"})
     except Exception as e:
@@ -153,8 +155,9 @@ def get_motor_by_owner_and_type():
         return jsonify({"detail": str(e)}), 500
 
 # MongoDB functions
-def addNewMotoreSeliPring(ownerName, velocity1, velocity2, ability1, ability2, weight, ble1, ble2, notes, division, motorDiameter1, motorDiameter2, lengthOWire, numberOfSewers,numberOfTurns, type):
+def addNewMotoreSeliPring(type, ownerName, velocity1, velocity2, ability1, ability2, weight, ble1, ble2, notes, division, motorDiameter1, motorDiameter2, lengthOfTheWire, numberOfSewers, numberOfTurns, step):
     new_motor = {
+        "type": type,
         "ownerName": ownerName,
         "velocity1": velocity1,
         "velocity2": velocity2,
@@ -167,10 +170,10 @@ def addNewMotoreSeliPring(ownerName, velocity1, velocity2, ability1, ability2, w
         "division": division,
         "motorDiameter1": motorDiameter1,
         "motorDiameter2": motorDiameter2,
-        "lengthOWire": lengthOWire,
-        "numberOfTurns":numberOfTurns,
+        "lengthOfTheWire": lengthOfTheWire,
+        "numberOfTurns": numberOfTurns,
         "numberOfSewers": numberOfSewers,
-        "type": type
+        "steps": step
     }
 
     try:
@@ -277,4 +280,4 @@ def getMotorsBy(number_of_turns: Optional[float] = None, diameter: Optional[floa
         return []
 
 if __name__ == "__main__":
-    app.run()
+    app.run(host="0.0.0.0", port=8000)
