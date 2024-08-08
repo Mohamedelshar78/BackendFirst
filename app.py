@@ -55,6 +55,10 @@ def to_motor(doc):
         "wireThicknessMobina":(doc.get("wireThicknessMobina","")),
         "weightMobina":safe_float(doc.get("weightMobina")),
         "stepMobina": doc.get("stepMobina", ""),
+        "velocityMobina":safe_float(doc.get("velocityMobina")),
+        "abilityMobina":safe_float(doc.get("abilityMobina")),
+
+
 
 
         
@@ -80,7 +84,7 @@ def add_MotorSeliPring():
             data["numberOfTurns"], data["step"],data["lengthOfMobina"],
             data["diameterOfMobina"],data["divisionMobina"],data["numberOfTurnsMobina"],
             data["numberOfSewersMobina"],data["wireThicknessMobina"],data["weightMobina"],
-            data["stepMobina"]
+            data["stepMobina"],data["velocityMobina"],data["abilityMobina"]
         )
         return jsonify({"message": "Insertion successful" if result else "Insertion failed"})
     except Exception as e:
@@ -175,7 +179,7 @@ def get_motor_by_owner_and_type():
 def addNewMotoreSeliPring(type, ownerName, velocity1, velocity2, ability1, ability2, weight, ble1, ble2, notes,
                           division, motorDiameter1, motorDiameter2, lengthOfTheWire, numberOfSewers, numberOfTurns, step,
                           lengthOfMobina,diameterOfMobina,divisionMobina,numberOfTurnsMobina,
-                          numberOfSewersMobina,wireThicknessMobina,weightMobina,stepMobina):
+                          numberOfSewersMobina,wireThicknessMobina,weightMobina,stepMobina,velocityMobina,abilityMobina):
     new_motor = {
         "type": type,
         "ownerName": ownerName,
@@ -201,7 +205,9 @@ def addNewMotoreSeliPring(type, ownerName, velocity1, velocity2, ability1, abili
         "numberOfSewersMobina":numberOfSewersMobina,
         "wireThicknessMobina":wireThicknessMobina,
         "weightMobina":weightMobina,
-        "stepMobina":stepMobina
+        "stepMobina":stepMobina,
+        "velocityMobina":velocityMobina,
+        "abilityMobina":abilityMobina
     }
 
     try:
