@@ -5,6 +5,7 @@ import os
 
 app = Flask(__name__)
 
+
 client = MongoClient(os.getenv("MONGO_URI"))
 db = client['motor_db']
 collection = db['motorCollection']
@@ -21,6 +22,7 @@ def to_motor(doc):
     doc['_id'] = str(doc['_id'])
     
     return {
+        
         "ownerName": doc.get("ownerName", ""),
         "velocity1": safe_float(doc.get("velocity1")),
         "velocity2": safe_float(doc.get("velocity2")),
@@ -35,16 +37,28 @@ def to_motor(doc):
         "motorDiameter2": safe_float(doc.get("motorDiameter2")),
         "lengthOfTheWire": safe_float(doc.get("lengthOfTheWire")),
         "numberOfSewers": safe_float(doc.get("numberOfSewers")),
-        "numberOfTurns": safe_float(doc.get("numberOfTurns")),
+        "numberOfTurns": (doc.get("numberOfTurns")),
         "type": doc.get("type", ""),
         "wrappedCountry": doc.get("wrappedCountry", False),
-        "step": doc.get("step"),
-        "steps": doc.get("steps"),
-        "stepTquem": doc.get("stepTquem"),
-        "wireThickness": doc.get("wireThickness"),
-        "numberOfTurnsTquem": doc.get("numberOfTurnsTquem"),
-        "wireThicknessTquem": doc.get("wireThicknessTquem"),
-        "waterpump": doc.get("waterpump", False)
+        "steps": doc.get("steps",""),
+        "step": doc.get("step",""),
+        "stepTquem": doc.get("stepTquem",""),
+        "wireThickness": doc.get("wireThickness",""),
+        "numberOfTurnsTquem": doc.get("numberOfTurnsTquem",""),
+        "wireThicknessTquem": doc.get("wireThicknessTquem",""),
+        "waterpump": doc.get("waterpump", False),
+        "lengthOfMobina":safe_float(doc.get("lengthOfMobina")),
+        "diameterOfMobina":safe_float(doc.get("diameterOfMobina")),
+        "divisionMobina":(doc.get("divisionMobina","")),
+        "numberOfTurnsMobina":(doc.get("numberOfTurnsMobina","")),
+        "numberOfSewersMobina":safe_float(doc.get("numberOfSewersMobina")),
+        "wireThicknessMobina":(doc.get("wireThicknessMobina","")),
+        "weightMobina":safe_float(doc.get("weightMobina")),
+        "stepMobina": doc.get("stepMobina", ""),
+
+
+        
+        
     }
 
 @app.route('/')
@@ -63,7 +77,10 @@ def add_MotorSeliPring():
             data["ability1"], data["ability2"], data["weight"], data["ble1"], 
             data["ble2"], data["notes"], data["division"], data["motorDiameter1"], 
             data["motorDiameter2"], data["lengthOfTheWire"], data["numberOfSewers"], 
-            data["numberOfTurns"], data["step"]
+            data["numberOfTurns"], data["step"],data["lengthOfMobina"],
+            data["diameterOfMobina"],data["divisionMobina"],data["numberOfTurnsMobina"],
+            data["numberOfSewersMobina"],data["wireThicknessMobina"],data["weightMobina"],
+            data["stepMobina"]
         )
         return jsonify({"message": "Insertion successful" if result else "Insertion failed"})
     except Exception as e:
@@ -155,7 +172,10 @@ def get_motor_by_owner_and_type():
         return jsonify({"detail": str(e)}), 500
 
 # MongoDB functions
-def addNewMotoreSeliPring(type, ownerName, velocity1, velocity2, ability1, ability2, weight, ble1, ble2, notes, division, motorDiameter1, motorDiameter2, lengthOfTheWire, numberOfSewers, numberOfTurns, step):
+def addNewMotoreSeliPring(type, ownerName, velocity1, velocity2, ability1, ability2, weight, ble1, ble2, notes,
+                          division, motorDiameter1, motorDiameter2, lengthOfTheWire, numberOfSewers, numberOfTurns, step,
+                          lengthOfMobina,diameterOfMobina,divisionMobina,numberOfTurnsMobina,
+                          numberOfSewersMobina,wireThicknessMobina,weightMobina,stepMobina):
     new_motor = {
         "type": type,
         "ownerName": ownerName,
@@ -173,7 +193,15 @@ def addNewMotoreSeliPring(type, ownerName, velocity1, velocity2, ability1, abili
         "lengthOfTheWire": lengthOfTheWire,
         "numberOfTurns": numberOfTurns,
         "numberOfSewers": numberOfSewers,
-        "steps": step
+        "steps": step,
+        "lengthOfMobina":lengthOfMobina,
+        "diameterOfMobina":diameterOfMobina,
+        "divisionMobina":divisionMobina,
+        "numberOfTurnsMobina":numberOfTurnsMobina,
+        "numberOfSewersMobina":numberOfSewersMobina,
+        "wireThicknessMobina":wireThicknessMobina,
+        "weightMobina":weightMobina,
+        "stepMobina":stepMobina
     }
 
     try:
@@ -280,4 +308,4 @@ def getMotorsBy(number_of_turns: Optional[float] = None, diameter: Optional[floa
         return []
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8000)
+    app.run()
