@@ -124,7 +124,8 @@ def add_Motor220Volt():
     print(f"Received data: {data}")
     try:
         result = addNew220Volt(
-            data.get("type"), data.get("ownerName"), data.get("velocity1"), data.get("velocity2"),
+            data.get("type"), data.get("ownerName"), data.get("ability1"),data.get("ability2"),
+            data.get("velocity1"), data.get("velocity2"),
             data.get("weight"), data.get("ble1"), data.get("ble2"), data.get("notes"),
             data.get("division"), data.get("motorDiameter1"), data.get("motorDiameter2"),
             data.get("lengthOfTheWire"), data.get("wrappedCountry"), data.get("step"),
@@ -256,10 +257,12 @@ def addNew3Pase(step,type, ownerName, velocity1, velocity2, ability1,ability2, w
         print(f"An error occurred: {e}")
         return False
 
-def addNew220Volt(type, ownerName, velocity1, velocity2, weight, ble1, ble2, notes, division, motorDiameter1, motorDiameter2, lengthOfTheWire, wrappedCountry, step, wireThickness, numberOfTurns, stepTquem, numberOfTurnsTquem, wireThicknessTquem):
+def addNew220Volt(type, ownerName, ability1,ability2,velocity1, velocity2, weight, ble1, ble2, notes, division, motorDiameter1, motorDiameter2, lengthOfTheWire, wrappedCountry, step, wireThickness, numberOfTurns, stepTquem, numberOfTurnsTquem, wireThicknessTquem):
     new_motor = {
         "type": type,
         "ownerName": ownerName,
+        "ability1" : ability1,
+        "ability2" : ability2,
         "velocity1": velocity1,
         "velocity2": velocity2,
         "weight": weight,
@@ -314,4 +317,4 @@ def getMotorsBy(number_of_turns: Optional[float] = None, diameter: Optional[floa
         return []
 
 if __name__ == "__main__":
-    app.run()
+    app.run(host="0.0.0.0", port=8000)
